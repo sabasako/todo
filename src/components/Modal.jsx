@@ -1,23 +1,43 @@
-import { forwardRef } from "react";
+import { useRef, useEffect } from "react";
 import classes from "./Modal.module.css";
 
-const Modal = forwardRef(function Modal({ onCancel }, ref) {
+export default function Modal({ onCancel, title, placeholder, onSubmitForm }) {
+  const inputRef = useRef();
+
   function handleForm(e) {
     e.preventDefault();
+    onAddList(inputRef.current.value);
     onCancel();
   }
 
+  useEffect(() => {
+    inputRef.current.focus();
+    const keyDown = document.body.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        onCancel();
+      }
+    });
+
+    return () => {
+      document.body.removeEventListener("keydown", keyDown);
+    };
+  }, [onCancel]);
+
   return (
     <>
-      <div className={classes.background}></div>
+      <div onClick={onCancel} className={classes.background}></div>
       <div className={classes.modal}>
-        <h3 className={classes.heading}>NEW NOTE</h3>
-        <form action="" className={classes.form} onSubmit={handleForm}>
+        <h3 className={classes.heading}>{title}</h3>
+        <form
+          action=""
+          className={classes.form}
+          onSubmit={(e) => onSubmitForm(e, inputRef.current.value)}
+        >
           <input
-            ref={ref}
+            ref={inputRef}
             className={classes.input}
             type="text"
-            placeholder="Input your node..."
+            placeholder={placeholder}
           />
           <div className={classes.btnWrapper}>
             <button
@@ -35,6 +55,4 @@ const Modal = forwardRef(function Modal({ onCancel }, ref) {
       </div>
     </>
   );
-});
-
-export default Modal;
+}

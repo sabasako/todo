@@ -36,3 +36,20 @@
   width: 32px;
   height: 32px;
 }
+
+.svg {
+  cursor: pointer;
+  stroke: #919191;
+  transition: all 0.3s;
+}
+
+.svg:hover,
+.svg:active {
+  stroke: #4b4b4b;
+}
+
+.edit {
+}
+
+.delete {
+}

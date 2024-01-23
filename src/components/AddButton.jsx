@@ -1,23 +1,9 @@
 import Modal from "./Modal";
-import { useState, useRef } from "react";
 
 export default function AddButton({ onAddList }) {
-  const [showModal, setShowModal] = useState(false);
-
-  const value = useRef();
-  console.log(value.current?.value);
-
-  function handleAdd() {
-    setShowModal(true);
-  }
-
-  function handleCancel() {
-    setShowModal(false);
-  }
-
   return (
     <>
-      <button onClick={handleAdd} className="add-todo btn-transition">
+      <button onClick={onAddList} className="add-todo btn-transition">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -32,9 +18,6 @@ export default function AddButton({ onAddList }) {
           />
         </svg>
       </button>
-      {showModal && (
-        <Modal onAddList={onAddList} ref={value} onCancel={handleCancel} />
-      )}
     </>
   );
 }
