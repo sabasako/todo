@@ -10,4 +10,4 @@
 
 ### Demo Link
 
-- [Watch Live][https://sako-todo.vercel.app]
+[Watch Live](https://sako-todo.vercel.app)
