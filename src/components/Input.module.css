@@ -5,3 +5,10 @@
   border-radius: 6px;
   font-size: 18px;
 }
+
+@media (max-width: 460px) {
+  .input {
+    grid-column: 1 / 9;
+    grid-row: 2 / 3;
+  }
+}

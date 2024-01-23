@@ -54,10 +54,12 @@ body {
   cursor: pointer;
 }
 
-.btn-transition:hover,
-.btn-transition:active {
-  background-color: #fff;
-  color: var(--primary-color);
+@media (min-width: 700px) {
+  .btn-transition:hover,
+  .btn-transition:active {
+    background-color: #fff;
+    color: var(--primary-color);
+  }
 }
 
 .add-todo {
@@ -67,7 +69,6 @@ body {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  /* font-size: 56px; */
   background-color: var(--primary-color);
   color: #fff;
   display: flex;
@@ -78,4 +79,78 @@ body {
 .add-todo svg {
   width: 40px;
   height: 40px;
+}
+
+.new-note-btn {
+  display: none;
+}
+
+main {
+  padding: 0 25px 0;
+}
+
+.add-p {
+  display: none;
+}
+
+@media (max-width: 1400px) {
+  .add-todo {
+    right: 15%;
+  }
+}
+
+@media (max-width: 950px) {
+  .add-todo {
+    right: 7%;
+  }
+}
+
+@media (max-width: 950px) {
+  .add-todo {
+    right: 7%;
+  }
+}
+
+@media (max-width: 700px) {
+  .btn-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .add-p {
+    display: block;
+    font-size: 28px;
+  }
+
+  .add-todo {
+    position: static;
+    border-radius: 10px;
+    padding: 10px 70px;
+    gap: 20px;
+    width: 100%;
+    width: auto;
+    height: auto;
+  }
+}
+
+@media (max-width: 460px) {
+  .input-wrapper {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    justify-items: center;
+  }
+
+  .add-todo {
+    padding: 10px 30px;
+  }
+
+  .theme-btn {
+    grid-row: 1 / 2;
+  }
+
+  main {
+    padding: 0 10px 0;
+  }
 }

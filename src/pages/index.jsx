@@ -167,57 +167,59 @@ export default function Home() {
           content="TODO APP, app where you can add todo lists, sort them, you can edit or delete lists later, you can filter lists by completed or pending, you can search lists by name, supports dark and light themes, "
         />
       </Head>
-      <h1 className="main-heading">TODO LIST</h1>
-      <div className="input-wrapper">
-        <Input onSearch={(value) => setSearchValue(value)} lists={lists} />
-        <Filter
-          options={["All", "Completed", "Pending"]}
-          onFilterChange={(value) => setSelectedFilter(value)}
-        />
-        <button className="theme-btn btn-transition">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-            />
-          </svg>
-        </button>
-      </div>
-      <AddButton onAddList={() => setShowNewModal(true)} />
-      <List
-        onCheck={handleCheck}
-        selectedFilter={selectedFilter}
-        value={searchValue}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        lists={lists}
-      />
-      {showNewModal && (
-        <Modal
-          title={"NEW NOTE"}
-          placeholder={"Note title... *"}
-          onSubmitForm={handleSubmitForm}
-          onCancel={() => setShowNewModal(false)}
-        />
-      )}
-      {showEditModal && (
-        <Modal
-          title={"EDIT NOTE"}
-          placeholder={"Edit note..."}
-          onSubmitForm={handleEditForm}
-          onCancel={() => setShowEditModal(false)}
-          currentId={currentId}
+      <main>
+        <h1 className="main-heading">TODO LIST</h1>
+        <div className="input-wrapper">
+          <Input onSearch={(value) => setSearchValue(value)} lists={lists} />
+          <Filter
+            options={["All", "Completed", "Pending"]}
+            onFilterChange={(value) => setSelectedFilter(value)}
+          />
+          <button className="theme-btn btn-transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+              />
+            </svg>
+          </button>
+        </div>
+        <List
+          onCheck={handleCheck}
+          selectedFilter={selectedFilter}
+          value={searchValue}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
           lists={lists}
-          date={lists.find((list) => list.id === currentId).date}
         />
-      )}
+        {showNewModal && (
+          <Modal
+            title={"NEW NOTE"}
+            placeholder={"Note title... *"}
+            onSubmitForm={handleSubmitForm}
+            onCancel={() => setShowNewModal(false)}
+          />
+        )}
+        {showEditModal && (
+          <Modal
+            title={"EDIT NOTE"}
+            placeholder={"Edit note..."}
+            onSubmitForm={handleEditForm}
+            onCancel={() => setShowEditModal(false)}
+            currentId={currentId}
+            lists={lists}
+            date={lists.find((list) => list.id === currentId).date}
+          />
+        )}
+        <AddButton onAddList={() => setShowNewModal(true)} />
+      </main>
     </>
   );
 }

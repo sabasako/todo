@@ -32,7 +32,7 @@ export default function List({ lists, onEdit, onDelete, value, selectedFilter, o
           .map((list) => (
             <div key={list.id} className={classes.wrapper}>
               <li className={classes.li}>
-                <div>
+                <div className={classes.titleWrapper}>
                   <input onChange={(e) => onCheck(list.id, e.target.checked)} className={classes.input} type="checkbox" checked={list.completed}/>
                   <p className={classes.text}>{list.name}</p>
                  {list.completed && <div className={classes.checkedSvgWrapper}>
@@ -41,7 +41,7 @@ export default function List({ lists, onEdit, onDelete, value, selectedFilter, o
                     </svg>
                   </div>}
                 </div>
-                <div>
+                <div className={classes.svgWrapper}>
                   <p className={classes.date}>{`${new Date(list.date).getDate() || ""} ${monthNames[new Date(list.date).getMonth()] || "No due date"}`}</p>
                   <svg
                     width="18"

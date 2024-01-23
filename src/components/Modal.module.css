@@ -1,5 +1,10 @@
+.wrapper {
+  padding: 0 25px;
+}
+
 .modal {
-  width: 500px;
+  width: calc(100% - 50px);
+  max-width: 500px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -71,10 +76,12 @@
   cursor: pointer;
 }
 
-.cancelBtn:hover,
-.cancelBtn:active {
-  background-color: var(--primary-color);
-  color: #fff;
+@media (min-width: 700px) {
+  .cancelBtn:hover,
+  .cancelBtn:active {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
 }
 
 .applyBtn {
@@ -89,8 +96,10 @@
   cursor: pointer;
 }
 
-.applyBtn:hover,
-.applyBtn:active {
-  background-color: #fff;
-  color: var(--primary-color);
+@media (min-width: 700px) {
+  .applyBtn:hover,
+  .applyBtn:active {
+    background-color: #fff;
+    color: var(--primary-color);
+  }
 }

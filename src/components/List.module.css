@@ -5,7 +5,7 @@
 }
 
 .ul {
-  margin: 50px auto 0;
+  margin: 50px auto 40px;
   max-width: 500px;
 }
 
@@ -96,11 +96,42 @@
   transition: all 0.3s;
 }
 
-.svg:hover,
-.svg:active {
-  stroke: #4b4b4b;
+@media (min-width: 700px) {
+  .svg:hover,
+  .svg:active {
+    stroke: #4b4b4b;
+  }
 }
 
 .textLine {
   text-decoration: line-through;
+}
+
+@media (max-width: 460px) {
+  .wrapper {
+    margin-bottom: 50px;
+  }
+
+  .li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .svgWrapper {
+    order: 1;
+  }
+
+  .titleWrapper {
+    order: 2;
+  }
+
+  .checkedSvg {
+    width: 22px;
+    translate: 6px 18px;
+  }
+
+  .description {
+    padding: 0 0 0 48px;
+  }
 }

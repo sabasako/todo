@@ -10,3 +10,16 @@
   border-radius: 7px;
   width: 130px;
 }
+
+@media (max-width: 600px) {
+  .filter {
+    width: 80px;
+  }
+}
+
+@media (max-width: 460px) {
+  .filter {
+    width: 130px;
+    grid-row: 1 / 2;
+  }
+}
