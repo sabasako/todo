@@ -3,25 +3,24 @@ import Filter from "@/components/Filter";
 import Input from "@/components/Input";
 import List from "@/components/List";
 import Modal from "@/components/Modal";
-import { set } from "firebase/database";
 import Head from "next/head";
 
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [lists, setLists] = useState([
-    { name: "rubiki", id: "1fsdfsdf" },
-    { name: "loiaoki", id: "1fsdfsdf2" },
-    { name: "lori", id: "1fsdfsdf23" },
-    { name: "rubiki12", id: "1fsdfsdf234" },
-    { name: "ruca", id: "1fsdfsdf2345" },
-    { name: "irakli", id: "1fsdfsdf23456" },
-    { name: "ira123", id: "1fsdfsdf234567" },
-    { name: "listani", id: "1fsdfsdf2345678" },
-    { name: "List", id: "1fsdfsdf23456789" },
+    { completed: false, name: "rubiki", id: "1fsdfsdf" },
+    { completed: true, name: "loiaoki", id: "1fsdfsdf2" },
+    { completed: true, name: "lori", id: "1fsdfsdf23" },
+    { completed: false, name: "rubiki12", id: "1fsdfsdf234" },
+    { completed: false, name: "ruca", id: "1fsdfsdf2345" },
+    { completed: false, name: "irakli", id: "1fsdfsdf23456" },
+    { completed: false, name: "ira123", id: "1fsdfsdf234567" },
+    { completed: false, name: "listani", id: "1fsdfsdf2345678" },
+    { completed: false, name: "List", id: "1fsdfsdf23456789" },
   ]);
-  const [filteredLists, setFilteredLists] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
 
   const [showNewModal, setShowNewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -43,11 +42,13 @@ export default function Home() {
   // }, []);
 
   // when user adds new list, this function will get list name value from form and update lists state
+
   function handleSubmitForm(e, value) {
     e.preventDefault();
     setLists((prev) => [
       ...prev,
       {
+        completed: false,
         name: value,
         id: Date.now(),
       },
@@ -83,6 +84,19 @@ export default function Home() {
     setLists(newList);
   }
 
+  function handleCheck(id, checked) {
+    const newList = lists.map((list) => {
+      if (list.id === id) {
+        return {
+          ...list,
+          completed: checked,
+        };
+      }
+      return list;
+    });
+    setLists(newList);
+  }
+
   return (
     <>
       <Head>
@@ -91,7 +105,7 @@ export default function Home() {
       <h1 className="main-heading">TODO LIST</h1>
       <div className="input-wrapper">
         <Input onSearch={(value) => setSearchValue(value)} lists={lists} />
-        <Filter />
+        <Filter onFilterChange={(value) => setSelectedFilter(value)} />
         <button className="theme-btn btn-transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -110,11 +124,12 @@ export default function Home() {
       </div>
       <AddButton onAddList={() => setShowNewModal(true)} />
       <List
+        onCheck={handleCheck}
+        selectedFilter={selectedFilter}
         value={searchValue}
         onEdit={handleEdit}
         onDelete={handleDelete}
         lists={lists}
-        filteredLists={filteredLists}
       />
       {showNewModal && (
         <Modal

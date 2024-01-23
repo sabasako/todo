@@ -35,21 +35,21 @@
 .input {
   width: 32px;
   height: 32px;
+  cursor: pointer;
+}
+
+.input:checked + .text {
+  color: #777;
+  text-decoration: line-through;
 }
 
 .svg {
   cursor: pointer;
-  stroke: #919191;
+  stroke: #252525;
   transition: all 0.3s;
 }
 
 .svg:hover,
 .svg:active {
   stroke: #4b4b4b;
-}
-
-.edit {
-}
-
-.delete {
 }

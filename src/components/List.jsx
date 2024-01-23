@@ -2,10 +2,17 @@ import classes from "./List.module.css";
 import empty from "/public/empty.svg";
 import Image from "next/image";
 
-export default function List({ lists, onEdit, onDelete, value }) {
-  const listsToRender = lists.filter((list) =>
-    list.name.toLowerCase().includes(value)
-  );
+// prettier-ignore
+export default function List({ lists, onEdit, onDelete, value, selectedFilter, onCheck }) {
+
+  let listsToRender;
+  if (selectedFilter === "Completed") {
+    listsToRender = lists.filter((list) => list.completed === true && list.name.toLowerCase().includes(value));
+  } else if (selectedFilter === "Incomplete") {
+    listsToRender = lists.filter((list) => list.completed === false && list.name.toLowerCase().includes(value));
+  } else {
+    listsToRender = lists.filter((list) => list.name.toLowerCase().includes(value));
+  }
 
   return (
     <ul className={classes.ul}>
@@ -21,7 +28,7 @@ export default function List({ lists, onEdit, onDelete, value }) {
           .map((list) => (
             <li key={list.id} className={classes.li}>
               <div>
-                <input className={classes.input} type="checkbox" />
+                <input onChange={(e) => onCheck(list.id, e.target.checked)} className={classes.input} type="checkbox" checked={list.completed}/>
                 <span className={classes.text}>{list.name}</span>
               </div>
               <div>
