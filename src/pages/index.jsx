@@ -9,15 +9,72 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [lists, setLists] = useState([
-    { completed: false, name: "rubiki", id: "1fsdfsdf" },
-    { completed: true, name: "loiaoki", id: "1fsdfsdf2" },
-    { completed: true, name: "lori", id: "1fsdfsdf23" },
-    { completed: false, name: "rubiki12", id: "1fsdfsdf234" },
-    { completed: false, name: "ruca", id: "1fsdfsdf2345" },
-    { completed: false, name: "irakli", id: "1fsdfsdf23456" },
-    { completed: false, name: "ira123", id: "1fsdfsdf234567" },
-    { completed: false, name: "listani", id: "1fsdfsdf2345678" },
-    { completed: false, name: "List", id: "1fsdfsdf23456789" },
+    {
+      date: "2004-12-04",
+      description:
+        "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lrem ipsum",
+      completed: false,
+      name: "rubiki",
+      id: "1fsdfsdf",
+    },
+    {
+      date: "2004-01-04",
+      description:
+        "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lrem ipsum",
+      completed: true,
+      name: "loiaoki",
+      id: "1fsdfsdf2",
+    },
+    {
+      date: "2004-12-23",
+      description: "",
+      completed: true,
+      name: "lori",
+      id: "1fsdfsdf23",
+    },
+    {
+      date: "2004-05-21",
+      description: "",
+      completed: false,
+      name: "rubiki12",
+      id: "1fsdfsdf234",
+    },
+    {
+      date: "2004-06-04",
+      description: "",
+      completed: false,
+      name: "ruca",
+      id: "1fsdfsdf2345",
+    },
+    {
+      date: "2004-07-04",
+      description: "",
+      completed: false,
+      name: "irakli",
+      id: "1fsdfsdf23456",
+    },
+    {
+      date: "2004-12-04",
+      description: "",
+      completed: false,
+      name: "ira123",
+      id: "1fsdfsdf234567",
+    },
+    {
+      date: "2004-08-27",
+      description:
+        "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lrem ipsum",
+      completed: false,
+      name: "listani",
+      id: "1fsdfsdf2345678",
+    },
+    {
+      date: "2004-09-14",
+      description: "",
+      completed: true,
+      name: "List",
+      id: "1fsdfsdf23456789",
+    },
   ]);
   const [searchValue, setSearchValue] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -43,14 +100,16 @@ export default function Home() {
 
   // when user adds new list, this function will get list name value from form and update lists state
 
-  function handleSubmitForm(e, value) {
+  function handleSubmitForm(e, value, descriptionValue, dateValue) {
     e.preventDefault();
     setLists((prev) => [
       ...prev,
       {
         completed: false,
         name: value,
+        description: descriptionValue,
         id: Date.now(),
+        date: dateValue,
       },
     ]);
     setShowNewModal(false);
@@ -63,13 +122,15 @@ export default function Home() {
   }
 
   // when user clicks on apply button in edit modal, this function will get data from form and update editValue state
-  function handleEditForm(e, value) {
+  function handleEditForm(e, value, descriptionValue, dateValue) {
     e.preventDefault();
     const newList = lists.map((list) => {
       if (list.id === currentId) {
         return {
           ...list,
           name: value,
+          description: descriptionValue,
+          date: dateValue,
         };
       }
       return list;
@@ -101,11 +162,18 @@ export default function Home() {
     <>
       <Head>
         <title>TODO APP</title>
+        <meta
+          name="description"
+          content="TODO APP, app where you can add todo lists, sort them, you can edit or delete lists later, you can filter lists by completed or pending, you can search lists by name, supports dark and light themes, "
+        />
       </Head>
       <h1 className="main-heading">TODO LIST</h1>
       <div className="input-wrapper">
         <Input onSearch={(value) => setSearchValue(value)} lists={lists} />
-        <Filter onFilterChange={(value) => setSelectedFilter(value)} />
+        <Filter
+          options={["All", "Completed", "Pending"]}
+          onFilterChange={(value) => setSelectedFilter(value)}
+        />
         <button className="theme-btn btn-transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +202,7 @@ export default function Home() {
       {showNewModal && (
         <Modal
           title={"NEW NOTE"}
-          placeholder={"Input your note..."}
+          placeholder={"Note title... *"}
           onSubmitForm={handleSubmitForm}
           onCancel={() => setShowNewModal(false)}
         />
@@ -145,6 +213,9 @@ export default function Home() {
           placeholder={"Edit note..."}
           onSubmitForm={handleEditForm}
           onCancel={() => setShowEditModal(false)}
+          currentId={currentId}
+          lists={lists}
+          date={lists.find((list) => list.id === currentId).date}
         />
       )}
     </>
