@@ -1,12 +1,20 @@
 import AddButton from "@/components/AddButton";
 import Filter from "@/components/Filter";
 import Input from "@/components/Input";
+import LayoutChanger from "@/components/LayoutChanger";
 import List from "@/components/List";
 import Modal from "@/components/Modal";
 import ThemeButton from "@/components/ThemeButton";
 import Head from "next/head";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+let defaultTheme =
+  typeof window !== "undefined" &&
+  window.matchMedia &&
+  window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 
 export default function Home() {
   const [lists, setLists] = useState([
@@ -85,6 +93,10 @@ export default function Home() {
 
   const [currentId, setCurrentId] = useState();
 
+  const [currentTheme, setCurrentTheme] = useState(defaultTheme);
+
+  const [currentLayout, setCurrentLayout] = useState("list");
+
   // useEffect(() => {
   //   const sendData = async () => {
   //     const response = await fetch(
@@ -159,6 +171,64 @@ export default function Home() {
     setLists(newList);
   }
 
+  function switchTheme() {
+    if (currentTheme === "light") {
+      document.documentElement.style.setProperty("--primary-color", "#f7f7f7");
+      document.documentElement.style.setProperty("--secondary-color", "#fff");
+      document.documentElement.style.setProperty(
+        "--background-color",
+        "#252525"
+      );
+      document.documentElement.style.setProperty("--border-color", "#f7f7f7");
+      document.documentElement.style.setProperty(
+        "--list-border-color",
+        "#6b63ff6c"
+      );
+      document.documentElement.style.setProperty(
+        "--secondary-light-color",
+        "#d3d3d3"
+      );
+      document.documentElement.style.setProperty(
+        "--cancel-btn-hover-color",
+        "#323232"
+      );
+      document.documentElement.style.setProperty(
+        "--layout-background-color",
+        "#bebebe72"
+      );
+      setCurrentTheme("dark");
+    } else {
+      document.documentElement.style.setProperty("--primary-color", "#6c63ff");
+      document.documentElement.style.setProperty(
+        "--secondary-color",
+        "#252525"
+      );
+      document.documentElement.style.setProperty("--background-color", "#fff");
+      document.documentElement.style.setProperty("--border-color", "#6c63ff");
+      document.documentElement.style.setProperty(
+        "--list-border-color",
+        "#6b63ff6c"
+      );
+      document.documentElement.style.setProperty(
+        "--secondary-light-color",
+        "#5f5f5f"
+      );
+      document.documentElement.style.setProperty(
+        "--cancel-btn-hover-color",
+        "#d2d2d2"
+      );
+      document.documentElement.style.setProperty(
+        "--layout-background-color",
+        "#c2e7ff"
+      );
+      setCurrentTheme("light");
+    }
+  }
+
+  function switchLayout(layout) {
+    setCurrentLayout(layout);
+  }
+
   return (
     <>
       <Head>
@@ -171,12 +241,13 @@ export default function Home() {
       <main>
         <h1 className="main-heading">TODO LIST</h1>
         <div className="input-wrapper">
+          <LayoutChanger layout={currentLayout} switchLayout={switchLayout} />
           <Input onSearch={(value) => setSearchValue(value)} lists={lists} />
           <Filter
             options={["All", "Completed", "Pending"]}
             onFilterChange={(value) => setSelectedFilter(value)}
           />
-          <ThemeButton />
+          <ThemeButton switchTheme={switchTheme} currentTheme={currentTheme} />
         </div>
         <List
           onCheck={handleCheck}
@@ -185,6 +256,8 @@ export default function Home() {
           onEdit={handleEdit}
           onDelete={handleDelete}
           lists={lists}
+          currentTheme={currentTheme}
+          currentLayout={currentLayout}
         />
         {showNewModal && (
           <Modal
@@ -205,7 +278,10 @@ export default function Home() {
             date={lists.find((list) => list.id === currentId).date}
           />
         )}
-        <AddButton onAddList={() => setShowNewModal(true)} />
+        <AddButton
+          currentLayout={currentLayout}
+          onAddList={() => setShowNewModal(true)}
+        />
       </main>
     </>
   );

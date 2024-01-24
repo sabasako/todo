@@ -1,14 +1,13 @@
 import classes from "./List.module.css";
 import empty from "/public/empty.svg";
+import darkEmpty from "/public/dark-empty.svg";
 import Image from "next/image";
 
 // prettier-ignore
 const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December",];
 
 // prettier-ignore
-export default function List({ lists, onEdit, onDelete, value, selectedFilter, onCheck }) {
-
-
+export default function List({ lists, onEdit, onDelete, value, selectedFilter, onCheck, currentTheme, currentLayout }) {
   let listsToRender;
   if (selectedFilter === "Completed") {
     listsToRender = lists.filter((list) => list.completed === true && list.name.toLowerCase().includes(value));
@@ -19,10 +18,11 @@ export default function List({ lists, onEdit, onDelete, value, selectedFilter, o
   }
 
   return (
-    <ul className={classes.ul}>
+    <ul className={currentLayout === "list" ? classes.ul : classes.gridUl}>
       {lists.length === 0 ? (
         <div className={classes.emptyWrapper}>
-          <Image src={empty} alt="Empty list" />
+          {currentTheme === "light" ? 
+          <Image src={empty} alt="Empty list icon" /> : <Image src={darkEmpty} alt="Dark Empty list icon" />}
           <p>Empty...</p>
         </div>
       ) : (
@@ -30,8 +30,8 @@ export default function List({ lists, onEdit, onDelete, value, selectedFilter, o
           .slice()
           .reverse()
           .map((list) => (
-            <div key={list.id} className={classes.wrapper}>
-              <li className={classes.li}>
+            <div key={list.id} className={currentLayout === "list" ? classes.wrapper : classes.gridWrapper}>
+              <li className={currentLayout === "list" ? classes.li : classes.liGrid}>
                 <div className={classes.titleWrapper}>
                   <input onChange={(e) => onCheck(list.id, e.target.checked)} className={classes.input} type="checkbox" checked={list.completed}/>
                   <p className={classes.text}>{list.name}</p>
@@ -42,7 +42,7 @@ export default function List({ lists, onEdit, onDelete, value, selectedFilter, o
                   </div>}
                 </div>
                 <div className={classes.svgWrapper}>
-                  <p className={classes.date}>{`${new Date(list.date).getDate() || ""} ${monthNames[new Date(list.date).getMonth()] || "No due date"}`}</p>
+                  {currentLayout === "list" && <p className={classes.date}>{`${new Date(list.date).getDate() || ""} ${monthNames[new Date(list.date).getMonth()] || "No due date"}`}</p>}
                   <svg
                     width="18"
                     height="18"

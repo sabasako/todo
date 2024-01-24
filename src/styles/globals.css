@@ -5,6 +5,8 @@
   --background-color: #fff;
   --list-border-color: #6b63ff6c;
   --border-color: #6c63ff;
+  --cancel-btn-hover-color: #d2d2d2;
+  --layout-background-color: #c2e7ff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +17,8 @@
     --background-color: #252525;
     --list-border-color: #6b63ff6c;
     --border-color: #f7f7f7;
+    --cancel-btn-hover-color: #323232;
+    --layout-background-color: #bebebe72;
   }
 }
 
@@ -37,12 +41,13 @@ body {
 }
 
 .input-wrapper {
-  max-width: 750px;
+  max-width: 1050px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 7fr 1fr 1fr;
+  grid-template-columns: 20fr 1fr 1fr;
   gap: 15px;
   position: relative;
+  row-gap: 40px;
 }
 
 .theme-btn {
@@ -53,6 +58,8 @@ body {
   width: 45px;
   height: 45px;
   border-radius: 7px;
+  transition: all 300ms;
+  cursor: pointer;
 }
 
 .theme-btn svg {
@@ -60,24 +67,19 @@ body {
   height: 32px;
 }
 
-.btn-transition {
-  border: 1px solid #6c63ff;
-  transition: all 300ms;
-  cursor: pointer;
-}
-
 @media (min-width: 700px) {
-  .btn-transition:hover,
-  .btn-transition:active {
+  .icon-transition:hover {
     background-color: #8a84ff;
-    color: var(--primary-color);
+  }
+
+  .icon-transition:active svg {
+    transform: scale(0.9);
   }
 }
 
 .add-todo {
   position: fixed;
   bottom: 50px;
-  right: 25%;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -86,6 +88,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid #6c63ff;
+  transition: all 300ms;
+  cursor: pointer;
+}
+
+.add-list {
+  right: 15%;
+}
+
+.add-grid {
+  right: 8%;
 }
 
 .add-todo svg {
@@ -105,25 +118,50 @@ main {
   display: none;
 }
 
+.grid-add-p {
+  display: none;
+}
+
+@media (max-width: 1600px) {
+  .add-grid {
+    right: 3%;
+  }
+}
+
 @media (max-width: 1400px) {
-  .add-todo {
-    right: 15%;
+  .add-list {
+    right: 10%;
+  }
+  .add-grid {
+    position: static;
+    border-radius: 10px;
+    padding: 10px 70px;
+    gap: 20px;
+    width: 100%;
+    width: auto;
+    height: auto;
+  }
+
+  .grid-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .grid-add-p {
+    display: block;
+    font-size: 28px;
   }
 }
 
-@media (max-width: 950px) {
-  .add-todo {
-    right: 7%;
+@media (max-width: 1200px) {
+  .add-list {
+    right: 5%;
   }
 }
 
-@media (max-width: 950px) {
-  .add-todo {
-    right: 7%;
-  }
-}
-
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .btn-wrapper {
     display: flex;
     justify-content: center;
@@ -136,7 +174,7 @@ main {
     font-size: 28px;
   }
 
-  .add-todo {
+  .add-list {
     position: static;
     border-radius: 10px;
     padding: 10px 70px;
@@ -154,7 +192,11 @@ main {
     justify-items: center;
   }
 
-  .add-todo {
+  .add-list {
+    padding: 10px 30px;
+  }
+
+  .add-grid {
     padding: 10px 30px;
   }
 

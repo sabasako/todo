@@ -9,6 +9,15 @@
   border: 1px solid #6c63ff;
   border-radius: 7px;
   width: 130px;
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+@media (min-width: 700px) {
+  .filter:hover,
+  .filter:active {
+    background-color: #8a84ff;
+  }
 }
 
 @media (max-width: 600px) {

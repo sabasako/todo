@@ -6,7 +6,7 @@ export default function Filter({ onFilterChange, options }) {
       onChange={(e) => onFilterChange(e.target.value)}
       name="filter"
       id="filter"
-      className={`${classes.filter} btn-transition`}
+      className={`${classes.filter}`}
     >
       <option value="All">All</option>
       <option value="Completed">Completed</option>

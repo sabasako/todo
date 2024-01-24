@@ -84,7 +84,7 @@
 @media (min-width: 700px) {
   .cancelBtn:hover,
   .cancelBtn:active {
-    background-color: #323232;
+    background-color: var(--cancel-btn-hover-color);
   }
 }
 
@@ -104,6 +104,5 @@
   .applyBtn:hover,
   .applyBtn:active {
     background-color: #8a84ff;
-    color: var(--primary-color);
   }
 }
