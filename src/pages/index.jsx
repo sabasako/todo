@@ -7,7 +7,7 @@ import Modal from "@/components/Modal";
 import ThemeButton from "@/components/ThemeButton";
 import Head from "next/head";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 let defaultTheme =
   typeof window !== "undefined" &&
@@ -93,26 +93,11 @@ export default function Home() {
 
   const [currentId, setCurrentId] = useState();
 
-  const [currentTheme, setCurrentTheme] = useState(defaultTheme);
+  const [currentTheme, setCurrentTheme] = useState(defaultTheme || "dark");
 
   const [currentLayout, setCurrentLayout] = useState("list");
 
-  // useEffect(() => {
-  //   const sendData = async () => {
-  //     const response = await fetch(
-  //       "https://todo-625d5-default-rtdb.firebaseio.com",
-  //       {
-  //         method: "POST",
-  //         body: JSON.stringify(lists),
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     console.log(data);
-  //   };
-  // }, []);
-
   // when user adds new list, this function will get list name value from form and update lists state
-
   function handleSubmitForm(e, value, descriptionValue, dateValue) {
     e.preventDefault();
     setLists((prev) => [

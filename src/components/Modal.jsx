@@ -14,7 +14,6 @@ export default function Modal({
   const inputDescriptionRef = useRef();
   const inputDateRef = useRef();
 
-  console.log(date);
   let currentList;
 
   if (lists) {

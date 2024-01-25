@@ -1,6 +1,6 @@
 import classes from "./LayoutChanger.module.css";
 
-export default function LayoutChanger({ switchLayout, layout }) {
+export default function LayoutChanger({ switchLayout, layout = "list" }) {
   return (
     <div className={classes.wrapper}>
       <div
