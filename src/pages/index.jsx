@@ -17,74 +17,7 @@ let defaultTheme =
     : "light";
 
 export default function Home() {
-  const [lists, setLists] = useState([
-    {
-      date: "2004-12-04",
-      description:
-        "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lrem ipsum",
-      completed: false,
-      name: "rubiki",
-      id: "1fsdfsdf",
-    },
-    {
-      date: "2004-01-04",
-      description:
-        "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lrem ipsum",
-      completed: true,
-      name: "loiaoki",
-      id: "1fsdfsdf2",
-    },
-    {
-      date: "2004-12-23",
-      description: "",
-      completed: true,
-      name: "lori",
-      id: "1fsdfsdf23",
-    },
-    {
-      date: "2004-05-21",
-      description: "",
-      completed: false,
-      name: "rubiki12",
-      id: "1fsdfsdf234",
-    },
-    {
-      date: "2004-06-04",
-      description: "",
-      completed: false,
-      name: "ruca",
-      id: "1fsdfsdf2345",
-    },
-    {
-      date: "2004-07-04",
-      description: "",
-      completed: false,
-      name: "irakli",
-      id: "1fsdfsdf23456",
-    },
-    {
-      date: "2004-12-04",
-      description: "",
-      completed: false,
-      name: "ira123",
-      id: "1fsdfsdf234567",
-    },
-    {
-      date: "2004-08-27",
-      description:
-        "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lrem ipsum",
-      completed: false,
-      name: "listani",
-      id: "1fsdfsdf2345678",
-    },
-    {
-      date: "2004-09-14",
-      description: "",
-      completed: true,
-      name: "List",
-      id: "1fsdfsdf23456789",
-    },
-  ]);
+  const [lists, setLists] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
 
