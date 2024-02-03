@@ -22,7 +22,7 @@ export default function List({ lists, onEdit, onDelete, value, selectedFilter, o
       {lists.length === 0 ? (
         <div className={classes.emptyWrapper}>
           {currentTheme === "light" ? 
-          <Image src={empty} alt="Empty list icon" /> : <Image src={darkEmpty} alt="Dark Empty list icon" />}
+          <Image src={empty} alt="Empty list icon"  /> : <Image src={darkEmpty} alt="Dark Empty list icon" />}
           <p>Empty...</p>
         </div>
       ) : (

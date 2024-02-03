@@ -9,12 +9,12 @@ import Head from "next/head";
 
 import { useEffect, useState } from "react";
 
-let defaultTheme =
-  typeof window !== "undefined" &&
-  window.matchMedia &&
-  window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+// let defaultTheme =
+//   typeof window !== "undefined" &&
+//   window.matchMedia &&
+//   window.matchMedia("(prefers-color-scheme: light)").matches
+//     ? "light"
+//     : "dark";
 
 export default function Home() {
   const [lists, setLists] = useState([]);
@@ -26,23 +26,52 @@ export default function Home() {
 
   const [currentId, setCurrentId] = useState();
 
-  const [currentTheme, setCurrentTheme] = useState(defaultTheme || "dark");
+  const [currentTheme, setCurrentTheme] = useState("dark");
 
   const [currentLayout, setCurrentLayout] = useState("list");
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setCurrentTheme(savedTheme);
+    }
+
+    const savedLayout = localStorage.getItem("layout");
+    if (savedLayout) {
+      setCurrentLayout(savedLayout);
+    }
+
+    const savedLists = JSON.parse(localStorage.getItem("lists"));
+    if (savedLists) {
+      setLists(savedLists);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (currentTheme === "dark") {
+      document.body.classList.add("dark");
+    } else if (currentTheme === "light") {
+      document.body.classList.remove("dark");
+    }
+  }, [currentTheme]);
+
   // when user adds new list, this function will get list name value from form and update lists state
-  function handleSubmitForm(e, value, descriptionValue, dateValue) {
+  function handleAdd(e, value, descriptionValue, dateValue) {
     e.preventDefault();
-    setLists((prev) => [
-      ...prev,
-      {
-        completed: false,
-        name: value,
-        description: descriptionValue,
-        id: Date.now(),
-        date: dateValue,
-      },
-    ]);
+    setLists((prev) => {
+      const newList = [
+        ...prev,
+        {
+          completed: false,
+          name: value,
+          description: descriptionValue,
+          id: Date.now(),
+          date: dateValue,
+        },
+      ];
+      localStorage.setItem("lists", JSON.stringify(newList));
+      return newList;
+    });
     setShowNewModal(false);
   }
 
@@ -68,14 +97,17 @@ export default function Home() {
     });
     setLists(newList);
     setShowEditModal(false);
+    localStorage.setItem("lists", JSON.stringify(newList));
   }
 
   // when user clicks on delete icon, this function will delete that specific list and update ui
   function handleDelete(id) {
     const newList = lists.filter((list) => list.id !== id);
     setLists(newList);
+    localStorage.setItem("lists", JSON.stringify(newList));
   }
 
+  // when user checks or unchecks list, this function will update completed state of that specific list
   function handleCheck(id, checked) {
     const newList = lists.map((list) => {
       if (list.id === id) {
@@ -87,6 +119,7 @@ export default function Home() {
       return list;
     });
     setLists(newList);
+    localStorage.setItem("lists", JSON.stringify(newList));
   }
 
   function switchTheme() {
@@ -115,6 +148,7 @@ export default function Home() {
         "#bebebe72"
       );
       setCurrentTheme("dark");
+      localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.style.setProperty("--primary-color", "#6c63ff");
       document.documentElement.style.setProperty(
@@ -140,11 +174,13 @@ export default function Home() {
         "#c2e7ff"
       );
       setCurrentTheme("light");
+      localStorage.setItem("theme", "light");
     }
   }
 
   function switchLayout(layout) {
     setCurrentLayout(layout);
+    localStorage.setItem("layout", layout);
   }
 
   return (
@@ -181,7 +217,7 @@ export default function Home() {
           <Modal
             title={"NEW NOTE"}
             placeholder={"Note title... *"}
-            onSubmitForm={handleSubmitForm}
+            onSubmitForm={handleAdd}
             onCancel={() => setShowNewModal(false)}
           />
         )}
