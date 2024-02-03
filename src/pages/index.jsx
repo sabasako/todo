@@ -3,6 +3,7 @@ import Filter from "@/components/Filter";
 import Input from "@/components/Input";
 import LayoutChanger from "@/components/LayoutChanger";
 import List from "@/components/List";
+import Message from "@/components/Message";
 import Modal from "@/components/Modal";
 import ThemeButton from "@/components/ThemeButton";
 import Head from "next/head";
@@ -30,6 +31,9 @@ export default function Home() {
 
   const [currentLayout, setCurrentLayout] = useState("list");
 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -41,10 +45,19 @@ export default function Home() {
       setCurrentLayout(savedLayout);
     }
 
-    const savedLists = JSON.parse(localStorage.getItem("lists"));
-    if (savedLists) {
-      setLists(savedLists);
-    }
+    fetch("https://todo-625d5-default-rtdb.firebaseio.com/lists.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Response not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLists(data || []);
+      })
+      .catch((error) => {
+        setError(true);
+      });
   }, []);
 
   useEffect(() => {
@@ -54,6 +67,25 @@ export default function Home() {
       document.body.classList.remove("dark");
     }
   }, [currentTheme]);
+
+  useEffect(() => {
+    fetch("https://todo-625d5-default-rtdb.firebaseio.com/lists.json", {
+      method: "PUT",
+      body: JSON.stringify(lists),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Something went wrong");
+        }
+      })
+      .catch((error) => {
+        setError(true);
+        console.log(error);
+      });
+  }, [lists]);
 
   // when user adds new list, this function will get list name value from form and update lists state
   function handleAdd(e, value, descriptionValue, dateValue) {
@@ -69,7 +101,7 @@ export default function Home() {
           date: dateValue,
         },
       ];
-      localStorage.setItem("lists", JSON.stringify(newList));
+
       return newList;
     });
     setShowNewModal(false);
@@ -97,14 +129,12 @@ export default function Home() {
     });
     setLists(newList);
     setShowEditModal(false);
-    localStorage.setItem("lists", JSON.stringify(newList));
   }
 
   // when user clicks on delete icon, this function will delete that specific list and update ui
   function handleDelete(id) {
     const newList = lists.filter((list) => list.id !== id);
     setLists(newList);
-    localStorage.setItem("lists", JSON.stringify(newList));
   }
 
   // when user checks or unchecks list, this function will update completed state of that specific list
@@ -119,7 +149,6 @@ export default function Home() {
       return list;
     });
     setLists(newList);
-    localStorage.setItem("lists", JSON.stringify(newList));
   }
 
   function switchTheme() {
